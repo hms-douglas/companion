@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe_refresh">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?background"
+        android:id="@+id/coordinator">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/topbar"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#00000000">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00000000"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/min_topbar_height"
+                    android:contentInsetLeft="0dp"
+                    android:contentInsetStart="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    android:contentInsetRight="0dp"
+                    android:contentInsetEnd="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetEnd="0dp"
+                    app:layout_collapseMode="pin">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/topbar_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="17dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/btn_contact"
+                                android:layout_width="@dimen/btn_icon_size"
+                                android:layout_height="@dimen/btn_icon_size"
+                                android:background="@drawable/design_btn_icon"
+                                android:src="@drawable/icon_email"
+                                android:padding="8dp"
+                                android:clickable="true"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+
+                            <ImageView
+                                android:id="@+id/btn_more"
+                                android:layout_width="@dimen/btn_icon_size"
+                                android:layout_height="@dimen/btn_icon_size"
+                                android:background="@drawable/design_btn_icon"
+                                android:src="@drawable/icon_store"
+                                android:paddingLeft="9dp"
+                                android:paddingRight="7dp"
+                                android:clickable="true"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/screenshot_topbar_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0">
+
+                            <ImageView
+                                android:id="@+id/screenshot_topbar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:src="@drawable/s0"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginBottom="20dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/topbar_container_helper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="17dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/app_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/app_name"
+                            android:textColor="?app_name"
+                            android:textSize="@dimen/app_name"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="52dp"
+                            android:layout_marginRight="52dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/watchface_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="22dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/topbar_container_helper">
+
+                        <ImageView
+                            android:id="@+id/watch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:src="@drawable/watch_galaxy"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/screenshot"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:src="@drawable/s0"
+                            app:layout_constraintBottom_toBottomOf="@id/watch"
+                            app:layout_constraintEnd_toEndOf="@id/watch"
+                            app:layout_constraintHeight_percent="0.467716535"
+                            app:layout_constraintStart_toStartOf="@id/watch"
+                            app:layout_constraintTop_toTopOf="@id/watch" />
+
+                        <ImageView
+                            android:id="@+id/pixel_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:src="@drawable/watch_pixel_light"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@id/watch"
+                            app:layout_constraintEnd_toEndOf="@id/watch"
+                            app:layout_constraintStart_toStartOf="@id/watch"
+                            app:layout_constraintTop_toTopOf="@id/watch" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/design_container"
+            android:elevation="10dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/btns_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/btn_container_padding"
+                    android:paddingRight="@dimen/btn_container_padding"
+                    android:paddingBottom="@dimen/btn_container_padding__bottom"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="40dp"
+                        android:layout_height="3dp"
+                        android:background="@drawable/design_btn"
+                        android:backgroundTint="?text_secondary"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/btn_container_margin_handle__bottom"
+                        android:layout_marginTop="@dimen/btn_container_margin_handle__top"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_watch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/design_btn"
+                        android:foreground="@drawable/design_btn_effect"
+                        android:gravity="center"
+                        android:text="@string/install_on_watch"
+                        android:textColor="?btn_text_color"
+                        android:textSize="@dimen/btn_font"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null"
+                        app:icon="@drawable/icon_watch"
+                        app:iconGravity="textStart"
+                        app:iconSize="@dimen/btn_icon"
+                        app:iconTint="?btn_text_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_browser"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/btn_space"
+                        android:background="@drawable/design_btn_secondary"
+                        android:foreground="@drawable/design_btn_effect"
+                        android:gravity="center"
+                        android:text="@string/open_on_browser"
+                        android:textColor="?btn_secondary_text_color"
+                        android:textSize="@dimen/btn_font"
+                        app:backgroundTint="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/btn_space"
+                        android:background="@drawable/design_btn_secondary"
+                        android:foreground="@drawable/design_btn_effect"
+                        android:gravity="center"
+                        android:text="@string/leave_a_review"
+                        android:textColor="?btn_secondary_text_color"
+                        android:textSize="@dimen/btn_font"
+                        app:backgroundTint="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/instructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/text_container_padding"
+                    android:paddingLeft="@dimen/text_container_padding"
+                    android:paddingRight="@dimen/text_container_padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?text_title"
+                        android:textStyle="bold"
+                        android:text="@string/instructions_0"
+                        android:textSize="@dimen/text_title_font"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/text_title_space"
+                        android:paddingTop="@dimen/text_title_space"
+                        android:background="@drawable/design_divisor" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?text_main"
+                        android:text="@string/instructions_1"
+                        android:textSize="@dimen/text_text_font"
+                        android:layout_marginBottom="@dimen/text_title_space"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?text_title"
+                        android:textStyle="bold"
+                        android:text="@string/instructions_2"
+                        android:textSize="@dimen/text_subtitle_font"
+                        android:paddingTop="@dimen/text_title_space"
+                        android:gravity="center"
+                        android:background="@drawable/design_divisor"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/text_title_space">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_3"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_watch2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/design_btn"
+                            android:foreground="@drawable/design_btn_effect"
+                            android:gravity="center"
+                            android:text="@string/install_on_watch"
+                            android:textColor="?btn_text_color"
+                            android:textSize="@dimen/btn_font"
+                            android:textStyle="bold"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:layout_marginTop="@dimen/text_screenshot_space"
+                            app:backgroundTint="@null"
+                            app:icon="@drawable/icon_watch"
+                            app:iconGravity="textStart"
+                            app:iconSize="@dimen/btn_icon"
+                            app:iconTint="?btn_text_color"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_4"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_5"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/screenshot_height"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:src="@drawable/instruction0"
+                            android:background="@drawable/design_instruction_image"
+                            android:padding="@dimen/screenshot_padding"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary"
+                            android:text="@string/instructions_6"
+                            android:textSize="@dimen/text_subtext_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary"
+                            android:text="@string/instructions_7"
+                            android:textSize="@dimen/text_subtext_font"
+                            android:gravity="center"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?text_title"
+                        android:textStyle="bold"
+                        android:text="@string/instructions_8"
+                        android:textSize="@dimen/text_subtitle_font"
+                        android:paddingTop="@dimen/text_title_space"
+                        android:gravity="center"
+                        android:background="@drawable/design_divisor"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/text_title_space">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_9"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_browser2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/design_btn_secondary"
+                            android:foreground="@drawable/design_btn_effect"
+                            android:gravity="center"
+                            android:text="@string/open_on_browser"
+                            android:textColor="?btn_secondary_text_color"
+                            android:textSize="@dimen/btn_font"
+                            android:textStyle="bold"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:layout_marginTop="@dimen/text_screenshot_space"
+                            app:backgroundTint="@null"
+                            app:icon="@drawable/icon_watch"
+                            app:iconGravity="textStart"
+                            app:iconSize="@dimen/btn_icon"
+                            app:iconTint="?btn_text_color"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_10"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/screenshot_height"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:src="@drawable/instruction1"
+                            android:background="@drawable/design_instruction_image"
+                            android:padding="@dimen/screenshot_padding"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_11"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/screenshot_height"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:src="@drawable/instruction2"
+                            android:background="@drawable/design_instruction_image"
+                            android:padding="@dimen/screenshot_padding"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_12"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary"
+                            android:text="@string/instructions_13"
+                            android:textSize="@dimen/text_subtext_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary"
+                            android:text="@string/instructions_14"
+                            android:textSize="@dimen/text_subtext_font"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary"
+                            android:text="@string/instructions_15"
+                            android:textSize="@dimen/text_subtext_font"
+                            android:gravity="center"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/copy_link"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/btn_space"
+                            android:background="@drawable/design_btn"
+                            android:foreground="@drawable/design_btn_effect"
+                            android:gravity="center"
+                            android:text="@string/copy_link"
+                            android:textColor="?btn_text_color"
+                            android:textSize="@dimen/btn_font"
+                            android:scaleY="0.7"
+                            android:scaleX="0.7"
+                            app:backgroundTint="@null"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?text_title"
+                        android:textStyle="bold"
+                        android:text="@string/instructions_16"
+                        android:textSize="@dimen/text_subtitle_font"
+                        android:paddingTop="@dimen/text_title_space"
+                        android:gravity="center"
+                        android:background="@drawable/design_divisor"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="@dimen/text_title_space">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_17"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_on_store"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/btn_space"
+                            android:background="@drawable/design_btn"
+                            android:foreground="@drawable/design_btn_effect"
+                            android:gravity="center"
+                            android:text="@string/open_on_store"
+                            android:textColor="?btn_text_color"
+                            android:textSize="@dimen/btn_font"
+                            android:scaleY="0.7"
+                            android:scaleX="0.7"
+                            app:backgroundTint="@null"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_18"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/screenshot_height"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:src="@drawable/instruction3"
+                            android:background="@drawable/design_instruction_image"
+                            android:padding="@dimen/screenshot_padding"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_19"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/screenshot_height"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:src="@drawable/instruction4"
+                            android:background="@drawable/design_instruction_image"
+                            android:padding="@dimen/screenshot_padding"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_main"
+                            android:text="@string/instructions_20"
+                            android:textSize="@dimen/text_text_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary"
+                            android:text="@string/instructions_21"
+                            android:textSize="@dimen/text_subtext_font"
+                            android:layout_marginTop="@dimen/text_text_line_space"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary"
+                            android:text="@string/instructions_22"
+                            android:textSize="@dimen/text_subtext_font"
+                            android:gravity="center"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

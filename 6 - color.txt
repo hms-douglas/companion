@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main">#1668E8</color>
+
+    <!-- ============= LIGHT THEME COLORS ============= -->
+    <color name="l_background">#E1E1E1</color>
+    <color name="l_container_background">#FFFFFF</color>
+    <color name="l_app_name">#333333</color>
+    <color name="l_btn_text_color">#FFFFFF</color>
+    <color name="l_btn_secondary_text_color">#353535</color>
+    <color name="l_btn_back_main">@color/main</color>
+    <color name="l_btn_back_secondary">#FAFAFA</color>
+    <color name="l_btn_back_wrong">#DF554C</color>
+    <color name="l_btn_effect">#C8737373</color>
+    <color name="l_text_title">#2B2B2B</color>
+    <color name="l_text_main">#353535</color>
+    <color name="l_text_secondary">#5E5E5E</color>
+    <color name="l_btn_icon_background">#FFFFFF</color>
+    <color name="l_btn_icon_color">@color/main</color>
+
+    <!-- ============= DARK THEME COLORS ============= -->
+    <color name="d_background">#13151C</color>
+    <color name="d_container_background">#202229</color>
+    <color name="d_app_name">#F6F6F6</color>
+    <color name="d_btn_text_color">#F6F6F6</color>
+    <color name="d_btn_secondary_text_color">#F6F6F6</color>
+    <color name="d_btn_back_main">@color/main</color>
+    <color name="d_btn_back_secondary">#222222</color>
+    <color name="d_btn_back_wrong">#C8433A</color>
+    <color name="d_btn_effect">#C8737373</color>
+    <color name="d_text_title">#E1E1E1</color>
+    <color name="d_text_main">#D6D6D6</color>
+    <color name="d_text_secondary">#A6A6A6</color>
+    <color name="d_btn_icon_background">#292B33</color>
+    <color name="d_btn_icon_color">#D5D5D5</color>
+
+    <!-- ============= FIXED COLORS ============= -->
+    <color name="popup_background">#DC000000</color>
+</resources>

@@ -1,0 +1,18 @@
+<!-- =================================== Dark theme =================================== -->
+<item name="background">@color/d_background</item>
+<item name="container_background">@color/d_container_background</item>
+<item name="app_name">@color/d_app_name</item>
+<item name="btn_text_color">@color/d_btn_text_color</item>
+<item name="btn_secondary_text_color">@color/d_btn_secondary_text_color</item>
+<item name="btn_back_main">@color/main</item>
+<item name="btn_back_secondary">@color/d_btn_back_secondary</item>
+<item name="btn_back_wrong">@color/d_btn_back_wrong</item>
+<item name="btn_effect">@color/d_btn_effect</item>
+<item name="text_title">@color/d_text_title</item>
+<item name="text_main">@color/d_text_main</item>
+<item name="text_secondary">@color/d_text_secondary</item>
+<item name="btn_icon_background">@color/d_btn_icon_background</item>
+<item name="btn_icon_color">@color/d_btn_icon_color</item>
+
+<!-- Set the status bar text to be visible on a dark background -->
+<item name="android:windowLightStatusBar">false</item>

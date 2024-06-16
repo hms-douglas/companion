@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_name">25sp</dimen>
+
+    <dimen name="btn_container_padding">40dp</dimen>
+    <dimen name="btn_container_padding__bottom">30dp</dimen>
+    <dimen name="btn_container_margin_handle__top">15dp</dimen>
+    <dimen name="btn_container_margin_handle__bottom">30dp</dimen>
+    <dimen name="btn_container_radius">20dp</dimen>
+
+    <dimen name="btn_font">19sp</dimen>
+    <dimen name="btn_icon">27sp</dimen>
+    <dimen name="btn_space">13dp</dimen>
+    <dimen name="btn_radius">15dp</dimen>
+    <dimen name="btn_border">1dp</dimen>
+
+    <dimen name="btn_icon_size">42dp</dimen>
+    <dimen name="btn_icon_radius">12dp</dimen>
+
+    <dimen name="popup_radius">24dp</dimen>
+    <dimen name="popup_padding">20dp</dimen>
+    <dimen name="popup_font">20sp</dimen>
+
+    <dimen name="text_title_font">25sp</dimen>
+    <dimen name="text_subtitle_font">20sp</dimen>
+
+    <dimen name="text_text_font">18sp</dimen>
+    <dimen name="text_subtext_font">15sp</dimen>
+
+    <dimen name="text_title_space">20dp</dimen>
+    <dimen name="text_text_line_space">10dp</dimen>
+
+    <dimen name="text_container_padding">20dp</dimen>
+
+    <dimen name="text_screenshot_space">10dp</dimen>
+    <dimen name="screenshot_height">127dp</dimen>
+    <dimen name="screenshot_border">1dp</dimen>
+    <dimen name="screenshot_radius">10dp</dimen>
+    <dimen name="screenshot_padding">1dp</dimen>
+
+    <dimen name="min_topbar_height">200dp</dimen>
+</resources>

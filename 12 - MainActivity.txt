@@ -1,0 +1,807 @@
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.AnimatedImageDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.TypedValue;
+import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.wear.remote.interactions.RemoteActivityHelper;
+
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.Wearable;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.button.MaterialButton;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Executors;
+
+public class MainActivity extends AppCompatActivity {
+    //REQUIRED!
+    final private String GOOGLE_PLAY_SELLER_URL = ""; //Example:  https://play.google.com/store/apps/dev?id=
+
+    //REQUIRED!
+    final private String EMAIL = "";
+
+    //AT LEAST ONE IS REQUIRED!
+    final private int[] SCREENSHOTS = {
+        R.drawable.
+    };
+
+    /* OPTIONAL
+
+        |  VALUE                             |  DESCRIPTION
+        |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        |  -1                                |  [default] Will try to get the user watch model and show it if the model exists here. If it cannot get the model will show a basic galaxy watch
+        |  -2                                |  Will only show the watch face, no watch in the background, NOT RECOMMENDED!
+        |  R.drawable.watch_galaxy           |  Will always show a basic galaxy watch, regardless of the user's watch model
+        |  R.drawable.watch_galaxy_classic   |  Will always show a galaxy watch classic, regardless of the user's watch model
+        |  R.drawable.watch_galaxy_pro       |  Will always show a galaxy watch pro, regardless of the user's watch model
+        |  R.drawable.watch_pixel            |  Will always show a google pixel, regardless of the user's watch model
+     */
+    final private int FIXED_WATCH = -1;
+
+    /* OPTIONAL
+
+        |  VALUE   |  DESCRIPTION
+        |-------------------------------------------------------------------------------------------
+        |  true    |  [default] Topbar will start expanded (watch showing without scrolling)
+        |  false   |  Topbar will start collapsed (watch not showing unless the user scroll down)
+     */
+    final private boolean TOPBAR_EXPANDED = true;
+
+    /* OPTIONAL
+
+       |  VALUE                                        |  DESCRIPTION
+       |----------------------------------------------------------------------------------------------------------------------------
+       |  AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM   |  [default] Uses user's phone current theme (dark or light)
+       |  AppCompatDelegate.MODE_NIGHT_YES             |  Will always use the dark theme, regardless of the user's current theme
+       |  AppCompatDelegate.MODE_NIGHT_NO              |  Will always use the light theme, regardless of the user's current theme
+    */
+    final private int THEME = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * ===================================================================================================================================================================================
+ */
+    private List<Node> NODES = new ArrayList<>(); //List to hold all nodes (devices) connected to the phone app
+
+    private MaterialButton BTN_WATCH; //Reference to the "Install on watch" button
+
+    private CountDownTimer COUNTDOWN_TIMER; //To check for connections change, in case the watch app is not connected
+
+    private ImageView IV_SCREENSHOT, //Reference to the imageview that will display the screenshots
+                      IV_SCREENSHOT_TOPBAR;
+
+    private int CUR_SCREENSHOT_INDEX = -1; //Indicator of the current screenshot being shown
+
+    private SwipeRefreshLayout SWIPE_REFRESH; //Reference to the swipe to refresh view
+
+    private CoordinatorLayout COORDINATOR_LAYOUT; //Reference to the root view
+
+    private AppBarLayout TOPBAR; //Reference to the top bar view
+
+    private ConstraintLayout WATCH_CONTAINER, //Reference to the watch container (holds the watch and the watchface)
+                             SCREENSHOT_TOPBAR_CONTAINER;
+
+    private LinearLayout BTNS_CONTAINER; //Reference to the container holding the main buttons
+
+    private final List<Integer> HEIGHTS_HELPER = new ArrayList<>(); //List to hold heights to calculate the topbar height when loaded
+
+    private final String URL_STORE_PAGE = "https://play.google.com/store/apps/details?id=",
+                         DEEPLINK_STORE = "market://details?id=";
+
+    //Runs when the app is created (~open)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //Set the "theme" mode
+        AppCompatDelegate.setDefaultNightMode(THEME);
+
+        //Shows the UI
+        setContentView(R.layout.activity_main);
+
+        getNodes();
+
+        initVariables();
+
+        initListeners();
+
+        init();
+
+    }
+
+    //Runs when the user "leaves" the app
+    @Override
+    protected void onPause() {
+        try {
+            if(COUNTDOWN_TIMER != null) {
+                //In case there is a countdown timer, do:
+
+                //Stops the countdown
+                COUNTDOWN_TIMER.cancel();
+            }
+
+            //Stops the animation
+            IV_SCREENSHOT.getAnimation().cancel();
+            IV_SCREENSHOT.clearAnimation();
+        } catch (Exception ignore) {}
+
+        super.onPause();
+    }
+
+    //Runs when the user comes back to the app
+    @Override
+    protected void onRestart() {
+        //Refresh the connections
+        getNodes();
+
+        //Restarts the animation
+        nextScreenshot();
+
+        super.onRestart();
+    }
+
+    private void initVariables() {
+        //Save a reference to the "Install on watch" button, so I don't need to use the "findViewById(R.id.btn_watch)" all the time
+        BTN_WATCH = findViewById(R.id.btn_watch);
+
+        //Save a reference to the imageview, so I don't need to use the "findViewById(R.id.screenshot)" all the time
+        IV_SCREENSHOT = findViewById(R.id.screenshot);
+        IV_SCREENSHOT_TOPBAR = findViewById(R.id.screenshot_topbar);
+
+        //Save a reference to the imageview, so I don't need to use the "findViewById(R.id.screenshot_topbar_container)" all the time
+        SCREENSHOT_TOPBAR_CONTAINER = findViewById(R.id.screenshot_topbar_container);
+
+        //Save a reference to the swipe to refresh view, so I don't need to use the "findViewById(R.id.swipe_refresh)" all the time
+        SWIPE_REFRESH = findViewById(R.id.swipe_refresh);
+
+        //Save a reference to the root view, so I don't need to use the "findViewById(R.id.root)" all the time
+        COORDINATOR_LAYOUT = findViewById(R.id.coordinator);
+
+        //Save a reference to the btns container view, so I don't need to use the "findViewById(R.id.btns_container)" all the time
+        BTNS_CONTAINER = findViewById(R.id.btns_container);
+
+        //Save a reference to the topbar view, so I don't need to use the "findViewById(R.id.topbar)" all the time
+        TOPBAR = findViewById(R.id.topbar);
+
+        //Save a reference to the topbar view, so I don't need to use the "findViewById(R.id.watchface_container)" all the time
+        WATCH_CONTAINER = findViewById(R.id.watchface_container);
+    }
+
+    //Get the nodes connected to the phone | Nodes = devices
+    private void getNodes() {
+        //Creates a thread to search for the nodes (it is required by the api)
+        new Thread(() -> {
+            try {
+                //Creates a NodeClient instance and then requests a list of nodes that are connected to the phone app
+                Task<List<Node>> nodeListTask = Wearable.getNodeClient(getApplicationContext()).getConnectedNodes(); //Async
+
+                //Remove all nodes from the list
+                NODES.clear();
+
+                //Awaits the response of which nodes are connected and "saves" it
+                NODES = Tasks.await((nodeListTask));
+
+                runOnUiThread(() -> {
+                    //Changes the text and color of the "Install on watch" depending on how many nodes are connected
+                    if(NODES.size() == 0) {
+                        //If no nodes are connected, do:
+
+                        //Change the text to "Watch not connected!"
+                        BTN_WATCH.setText(getString(R.string.watch_not_connected));
+
+                        //Change the icon
+                        BTN_WATCH.setIconResource(R.drawable.icon_watch_off);
+
+                        //Change the button color to red
+                        BTN_WATCH.setBackgroundDrawable(Objects.requireNonNull(getDrawable(R.drawable.design_btn_off)));
+
+                        //Waits 5 seconds
+                        COUNTDOWN_TIMER = new CountDownTimer(5000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {}
+
+                            @Override
+                            public void onFinish() {
+                                //Refresh the connections
+                                getNodes();
+                            }
+                        }.start();
+                    } else {
+                        //If there is at least one node connected, do:
+
+                        //Change the text to "Install on watch!"
+                        BTN_WATCH.setText(getString(R.string.install_on_watch));
+
+                        //Change the icon
+                        BTN_WATCH.setIconResource(R.drawable.icon_watch);
+
+                        //Change the button color to default color
+                        BTN_WATCH.setBackgroundDrawable(Objects.requireNonNull(getDrawable(R.drawable.design_btn)));
+
+                        //Changes the watch image
+                        showWatch();
+                    }
+                });
+            } catch (Exception e) {
+                //In case something goes wrong shows a message to the user
+                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(this, getString(R.string.toast_error), Toast.LENGTH_SHORT).show());
+            }
+        }).start();
+    }
+
+    //Set actions
+    private void initListeners() {
+        //Adds a listener to the phone back button | Does not handle gestures
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                //If the back button is pressed, do:
+
+                //Closes the app instead of sending it to background
+                finish();
+            }
+        });
+
+        /*
+         * When the user click on "Install on watch"
+         *
+         * It will display the google play page of your watchface/application directly on the watch store
+         */
+        BTN_WATCH.setOnClickListener((l) -> {
+            //Add click vibration
+            l.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+
+            if(NODES.size() == 0) {
+                //If no nodes are connected, do:
+
+                //Shows a message to the user saying that is refreshing
+                Toast.makeText(this, getString(R.string.toast_refreshing), Toast.LENGTH_SHORT).show();
+
+                //Refresh the connections
+                getNodes();
+            } else {
+                //If there is at least one node connected, do:
+
+                //Gets all nodes connected and open the store on each one:
+                for(Node node : NODES) {
+                    //Creates the intent to open the store
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+
+                    i.addCategory(Intent.CATEGORY_BROWSABLE);
+                    i.setData(Uri.parse(DEEPLINK_STORE + getPackageName()));
+
+                    //Required to open an intent on a remote device
+                    RemoteActivityHelper remoteActivityHelper = new RemoteActivityHelper(this, Executors.newSingleThreadExecutor());
+
+                    //Opens the google play store on the device
+                    remoteActivityHelper.startRemoteActivity(i, node.getId());
+                }
+
+                //Shows a popup informing to check the watch along with the first device's name
+                new MainActivity.Popup().checkWatch(this, NODES.get(0).getDisplayName());
+
+                //Refresh the connections
+                getNodes();
+            }
+        });
+
+        //Install button from the instructions
+        findViewById(R.id.btn_watch2).setOnClickListener((l) -> {
+
+            //Triggers the default install button
+            BTN_WATCH.callOnClick();
+        });
+
+        /*
+         * When the user click on "Open on browser"
+         *
+         * Forces android to open the link on the browser instead of redirecting to Google Play
+         * */
+        findViewById(R.id.btn_browser).setOnClickListener((l) -> {
+            //Add click vibration
+            l.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+
+            //Creates an empty intent to force the browser use instead of redirecting to the google play
+            final Intent ie = new Intent();
+
+            ie.setAction(Intent.ACTION_VIEW);
+            ie.addCategory(Intent.CATEGORY_BROWSABLE);
+            ie.setData(Uri.fromParts("http", "", null));
+
+            //Creates the intent to open the watchface/application page on the browser
+            final Intent i = new Intent();
+
+            i.setAction(Intent.ACTION_VIEW);
+            i.addCategory(Intent.CATEGORY_BROWSABLE);
+            i.setData(Uri.parse(URL_STORE_PAGE + getPackageName()));
+            i.setSelector(ie);
+
+            try {
+                //Tries to open it
+                startActivity(i);
+            } catch (Exception ignore) {
+                //Shows a error message if something doesn1t work
+                Toast.makeText(this, getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //When the user click on "Open on Google Play"
+        findViewById(R.id.btn_on_store).setOnClickListener((l) -> {
+            //Add click vibration
+            l.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+
+            //Creates the intent to open the watchface/application page on the playstore
+            Intent i = new Intent(Intent.ACTION_VIEW);
+
+            i.addCategory(Intent.CATEGORY_BROWSABLE);
+            i.setData(Uri.parse(URL_STORE_PAGE + getPackageName()));
+
+            try {
+                //Tries to open it
+                startActivity(i);
+            } catch (Exception ignore) {
+                //Shows a error message if something doesn1t work
+                Toast.makeText(this, getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Open on browser button from the instructions
+        findViewById(R.id.btn_browser2).setOnClickListener((l) -> {
+
+            //Triggers the default install button
+            findViewById(R.id.btn_browser).callOnClick();
+        });
+
+        //When the user click on the google play icon (top right icon)
+        findViewById(R.id.btn_more).setOnClickListener((l) -> {
+            //Add click vibration
+            l.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+
+            //Opens the seller url on browser or redirect to Google Play
+            try {
+                //Tries to open it
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_PLAY_SELLER_URL)));
+            } catch (Exception ignore) {
+                //Shows a error message if something doesn1t work
+                Toast.makeText(this, getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //When the user click on the email icon (top left icon)
+        findViewById(R.id.btn_contact).setOnClickListener((l) -> {
+            //Add click vibration
+            l.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+
+            //Creates an intent
+            Intent i = new Intent(Intent.ACTION_VIEW);
+
+            //Adds your email
+            i.setData(Uri.parse("mailto:" + EMAIL));
+            i.putExtra(Intent.EXTRA_EMAIL, new String[] {EMAIL});
+
+            //Set the watchface name as subject
+            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+
+            try {
+                //Tries to init the email app
+                startActivity(i);
+            } catch (Exception ignore) {
+                //Shows a error message if something doesn't work
+                Toast.makeText(this, getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //When the user click on the "Leave a review"
+        findViewById(R.id.btn_review).setOnClickListener((l) -> {
+            //Add click vibration
+            l.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+
+            //Creates the intent to show the app on the phone store
+            final Intent i = new Intent(Intent.ACTION_VIEW);
+
+            i.addCategory(Intent.CATEGORY_BROWSABLE);
+            i.setData(Uri.parse(URL_STORE_PAGE + getPackageName()));
+
+            try {
+                //Tries to open it
+                startActivity(i);
+            } catch (Exception ignore) {
+                //Shows a error message if something doesn1t work
+                Toast.makeText(this, getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //When the user click on the "Copy link"
+        findViewById(R.id.copy_link).setOnClickListener((l) -> {
+            //Add click vibration
+            l.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+
+            final ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+            final ClipData clip = ClipData.newPlainText("", URL_STORE_PAGE + getPackageName());
+
+            clipboard.setPrimaryClip(clip);
+
+            Toast.makeText(this, getString(R.string.toast_copied), Toast.LENGTH_LONG).show();
+        });
+
+        TOPBAR.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            //Enable/Disable the swipe to refresh depending on the scroll position
+            SWIPE_REFRESH.setEnabled(verticalOffset == 0);
+
+            verticalOffset = Math.abs(verticalOffset);
+
+            //Calculates the opacity based on the height scrolled
+            final float opacity = (float) verticalOffset / ((appBarLayout.getHeight() - findViewById(R.id.toolbar).getHeight()) / 2);
+
+            //Changes the watch container opacity, to hide it
+            WATCH_CONTAINER.setAlpha(1 - opacity);
+
+            if(opacity >= 0.75) {
+                //If the opacity is equals or greater than 75% starts showing the screenshot container from the topbar
+                SCREENSHOT_TOPBAR_CONTAINER.setAlpha(opacity);
+            } else {
+                //Otherwise hides it
+                SCREENSHOT_TOPBAR_CONTAINER.setAlpha(0f);
+            }
+        });
+
+        SWIPE_REFRESH.setOnRefreshListener(() -> {
+            //Add click vibration
+            SWIPE_REFRESH.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+
+            //Shows a message to the user saying that is refreshing
+            Toast.makeText(this, getString(R.string.toast_refreshing), Toast.LENGTH_SHORT).show();
+
+            //Refresh the connections
+            getNodes();
+
+            //Waits 4 seconds
+            new CountDownTimer(4000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {}
+
+                @Override
+                public void onFinish() {
+                    //Stops the refresh animation
+                    SWIPE_REFRESH.setRefreshing(false);
+                }
+            }.start();
+        });
+    }
+
+    private void init() {
+        validateSellersInputs();
+
+        showScreenshots();
+
+        initTopbar();
+    }
+
+    private void validateSellersInputs() {
+        if(EMAIL.trim().length() == 0) {
+            throw new IllegalArgumentException("ADD YOUR EMAIL!!!");
+        }
+
+        if(GOOGLE_PLAY_SELLER_URL.trim().length() == 0) {
+            throw new IllegalArgumentException("ADD YOUR SELLERS PAGE URL!!!");
+        }
+
+        if(!GOOGLE_PLAY_SELLER_URL.toLowerCase().startsWith("https")) {
+            throw new IllegalArgumentException("GOOGLE PLAY SELLERS URL MUST START WITH \"https:\"!!!");
+        }
+    }
+
+    private void initTopbar() {
+        //Gets the height of the usable screen
+        calculateHeightForTopbar(COORDINATOR_LAYOUT);
+
+        //Gets the height of the btns container
+        calculateHeightForTopbar(BTNS_CONTAINER);
+    }
+
+    private void calculateHeightForTopbar(View v) {
+        //Called when the view is rendered
+        v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                //Removes the listener
+                v.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                //Gets the height and tries to calculate
+                setHeightForTopbar(v.getHeight());
+            }
+        });
+    }
+
+    private void setHeightForTopbar(int height) {
+        //Add the height to a list
+        HEIGHTS_HELPER.add(height);
+
+        if(HEIGHTS_HELPER.size() >= 2) {
+            //If there is at least two heights, do:
+
+            //Gets the parameters of the topbar
+            final ViewGroup.LayoutParams params = TOPBAR.getLayoutParams();
+
+            //Set the new height based on the usuable screen height and the buttons container
+            params.height = Math.abs(HEIGHTS_HELPER.get(0) - HEIGHTS_HELPER.get(1));
+
+            //Request the view to refresh
+            TOPBAR.requestLayout();
+
+            //Set if the topbar will be expanded or collapsed
+            TOPBAR.setExpanded(TOPBAR_EXPANDED, false);
+        }
+    }
+
+    private void showScreenshots() {
+        switch (SCREENSHOTS.length) {
+            case 0:
+                //If there is no screenshots, do:
+
+                //Throws an error | The app breaks!
+                throw new IllegalArgumentException("ADD AT LEAST ONE SCREENSHOT!!!");
+
+            case 1:
+                //If there is only one screenshot, do:
+
+                //Show the screenshot
+                IV_SCREENSHOT.setImageResource(SCREENSHOTS[0]);
+                IV_SCREENSHOT_TOPBAR.setImageResource(SCREENSHOTS[0]);
+                break;
+
+            default:
+                //If there is more then one screenshot, do:
+
+                //Shows the next screenshot
+                nextScreenshot();
+                break;
+        }
+    }
+
+    private void nextScreenshot() {
+        //Increments the index and checks if it is valid
+        if(++CUR_SCREENSHOT_INDEX == (SCREENSHOTS.length - 1)) {
+            //If reaches the last of the screenshots, do:
+
+            //Go back to the first
+            CUR_SCREENSHOT_INDEX = 0;
+        }
+
+        addScreenshotAnimation(IV_SCREENSHOT, true);
+        addScreenshotAnimation(IV_SCREENSHOT_TOPBAR, false);
+    }
+
+    private void addScreenshotAnimation(ImageView v, Boolean callsNext) {
+        v.animate() //Creates an animation
+        .scaleX(0.97f) //Scale the image down
+        .scaleY(0.97f) //Scale the image down
+        .alpha(0.2f) //Change the image opacity
+        .setDuration(400) //Duration of the animation
+        .withEndAction(() -> {
+            //When the "out" animation is done, do:
+
+            //Changes the image
+            v.setImageResource(SCREENSHOTS[CUR_SCREENSHOT_INDEX]);
+
+            v.animate() //Creates an animation
+            .scaleX(1f) //Restore the image size
+            .scaleY(1f) //Restore the image size
+            .alpha(1f) //Restore the image opacity
+            .setDuration(400) //Duration of the animation
+            .withEndAction(() -> {
+                //When the "in" animation is done, do:
+
+                if(callsNext) {
+                    //Awaits 5 seconds
+                    COUNTDOWN_TIMER = new CountDownTimer(5000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            //After 5 seconds, do:
+
+                            //Show the next screenshot | Repeat the loop
+                            nextScreenshot();
+                        }
+                    }.start(); //Starts the "timer"
+                }
+            })
+            .start(); //Starts the "in" animation
+        })
+        .start(); //Starts the "out" animation
+    }
+
+    private void showWatch() {
+        //Reference to the imageview that will display the watch
+        final ImageView watch = findViewById(R.id.watch);
+
+        if(FIXED_WATCH == -2) {
+            //If you don't want a watch
+
+            //Shows no watch
+            watch.setImageDrawable(null);
+
+            return;
+        } else if(FIXED_WATCH != -1) {
+            //If you set a fixed watch, do:
+
+            //Shows the watch you set
+            watch.setImageResource(FIXED_WATCH);
+
+            if(FIXED_WATCH == R.drawable.watch_pixel) {
+                //If you set the pixel as fixed
+
+                //Shows the google pixel light effect
+                findViewById(R.id.pixel_light).setVisibility(View.VISIBLE);
+            }
+
+            return;
+        }
+
+        //Gets the name of the first device connected to the phone (and changes all letters to lowercase)
+        final String deviceName = NODES.get(0).getDisplayName().toLowerCase();
+
+        if(deviceName.contains("galaxy")) {
+            //If the device name has the word "galaxy" on it, do:
+
+            if(deviceName.contains("classic")) {
+                //If the device name has the word "classic" on it, do:
+
+                //Shows the galaxy watch classic model
+                watch.setImageResource(R.drawable.watch_galaxy_classic);
+            } else if(deviceName.contains("pro")) {
+                //If the device name has the word "pro" on it, do:
+
+                //Shows the galaxy watch pro model
+                watch.setImageResource(R.drawable.watch_galaxy_pro);
+            } else {
+                //If the device does not have the word "classic" or "pro", do:
+
+                //Shows the galaxy watch basic model
+                watch.setImageResource(R.drawable.watch_galaxy);
+            }
+        } else if(deviceName.contains("pixel")) {
+            //If the device name has the word "pixel" on it, do:
+
+            //Shows a google pixel watch as model
+            watch.setImageResource(R.drawable.watch_pixel);
+
+            //Shows the google pixel light effect
+            findViewById(R.id.pixel_light).setVisibility(View.VISIBLE);
+        } else {
+            //If the device name does not have the word "galaxy" or "pixel" on it, do:
+
+            //Shows the default watch
+            watch.setImageResource(R.drawable.watch_galaxy);
+        }
+    }
+
+    //Class to show popups
+    private class Popup {
+
+        //Creates and shows a popup that informs the user to check the watch
+        private void checkWatch(Activity a, String n) {
+            //Creates a transparent dialog
+            final Dialog dialog = new Dialog(a, android.R.style.Theme_Translucent_NoTitleBar);
+
+            //Add animation (entering and exiting, fade)
+            Objects.requireNonNull(dialog.getWindow()).getAttributes().windowAnimations = R.style.DialogAnimation;
+
+            //Gets the custom popup layout
+            View layout = ((LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog, null);
+
+            //Set the custom layout to the dialog
+            dialog.setContentView(layout);
+
+            //Adds a listener to the background (basically for everything inside the popup layout)
+            layout.findViewById(R.id.dialog_background).setOnClickListener((l) -> {
+                if(dialog.isShowing()) {
+                    //If the popup is showing, do:
+
+                    //Dismiss the popup
+                    dialog.dismiss();
+                }
+            });
+
+            try {
+                /*
+                 * Gets the reference to the image container
+                 *
+                 * [Credits: Image (GIF) by "Freepik" available at "https://www.flaticon.com/free-animated-icon/smartwatch_15575632", downloaded on Jun 02, 2024]
+                 * [Modified: Background color removed and image color changed]
+                 * [License: Free for commercial use, they only request to say that the image was made by them]
+                 */
+                ImageView imageView = layout.findViewById(R.id.dialog_animation);
+
+                //Gets the gif as drawable
+                Drawable drawable = ImageDecoder.decodeDrawable(ImageDecoder.createSource(getResources(), R.drawable.anim_watch));
+
+                //Adds the gif to the imageview
+                imageView.setImageDrawable(drawable);
+
+                //Container for a value
+                TypedValue typedValue = new TypedValue();
+
+                //Gets the secondary text color from the current theme
+                getTheme().resolveAttribute(R.attr.btn_secondary_text_color, typedValue, true);
+
+                //Changes the gif color
+                imageView.setColorFilter(typedValue.data);
+
+                //"Converts" the static drawable into an animated drawable
+                AnimatedImageDrawable animation = (AnimatedImageDrawable) drawable;
+
+                //Plays the gif
+                animation.start();
+            } catch (Exception ignore) {}
+
+            //Shows a message inside the popup
+            ((TextView) layout.findViewById(R.id.dialog_label)).setText(a.getString(R.string.check_you_watch) + " " + n);
+
+            //Shows the popup
+            dialog.show();
+
+            //Awaits 5.5 seconds
+            new CountDownTimer(5500, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {}
+
+                @Override
+                public void onFinish() {
+                    if(dialog.isShowing()) {
+                        //If the popup is showing after the 5.5 seconds, do:
+
+                        //Dismiss the popup
+                        dialog.dismiss();
+                    }
+                }
+            }.start();
+        }
+    }
+}

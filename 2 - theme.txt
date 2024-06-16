@@ -1,0 +1,66 @@
+<attr name="background" format="reference" />
+<attr name="container_background" format="reference" />
+<attr name="app_name" format="reference" />
+<attr name="btn_text_color" format="reference" />
+<attr name="btn_secondary_text_color" format="reference" />
+<attr name="btn_back_main" format="reference" />
+<attr name="btn_back_secondary" format="reference" />
+<attr name="btn_back_wrong" format="reference" />
+<attr name="btn_effect" format="reference" />
+<attr name="text_title" format="reference" />
+<attr name="text_main" format="reference" />
+<attr name="text_secondary" format="reference" />
+<attr name="btn_icon_background" format="reference" />
+<attr name="btn_icon_color" format="reference" />
+	
+	
+	
+	
+	
+	
+	
+	
+<!-- =================================== Light theme =================================== -->
+<item name="background">@color/l_background</item>
+<item name="container_background">@color/l_container_background</item>
+<item name="app_name">@color/l_app_name</item>
+<item name="btn_text_color">@color/l_btn_text_color</item>
+<item name="btn_secondary_text_color">@color/l_btn_secondary_text_color</item>
+<item name="btn_back_main">@color/main</item>
+<item name="btn_back_secondary">@color/l_btn_back_secondary</item>
+<item name="btn_back_wrong">@color/l_btn_back_wrong</item>
+<item name="btn_effect">@color/l_btn_effect</item>
+<item name="text_title">@color/l_text_title</item>
+<item name="text_main">@color/l_text_main</item>
+<item name="text_secondary">@color/l_text_secondary</item>
+<item name="btn_icon_background">@color/l_btn_icon_background</item>
+<item name="btn_icon_color">@color/l_btn_icon_color</item>
+
+<!-- Set the status bar text to be visible on a light background -->
+<item name="android:windowLightStatusBar">true</item>
+
+	
+	
+	
+	
+	
+	
+	
+	
+<!-- =================================== Base theme =================================== -->
+<!-- Set the status bar to be the same color of the app -->
+<item name="android:statusBarColor" tools:targetApi="l">?background</item>
+
+	
+	
+	
+	
+	
+	
+	
+	
+<!-- =================================== Dialog theme =================================== -->
+<style name="DialogAnimation">
+	<item name="android:windowEnterAnimation">@anim/fade_in</item>
+	<item name="android:windowExitAnimation">@anim/fade_out</item>
+</style>

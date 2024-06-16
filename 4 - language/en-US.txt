@@ -1,0 +1,43 @@
+<string name="install_on_watch">Install on watch</string>
+<string name="open_on_browser">Open in browser</string>
+<string name="open_on_store">Open on Google Play</string>
+<string name="leave_a_review">Leave a review</string>
+
+<string name="copy_link">Copy link</string>
+
+<string name="watch_not_connected">Watch not connected!</string>
+
+<string name="check_you_watch">Check your</string>
+
+<string name="toast_refreshing">Refreshing</string>
+<string name="toast_error">Something went wrong!</string>
+<string name="toast_review_done">Thank you!</string>
+<string name="toast_copied">Copied to clipboard!</string>
+
+<string name="instructions_0">Installation guide</string>
+
+<string name="instructions_1">There are three methods to install the watch face:</string>
+
+<string name="instructions_2">Method 1: Directly on your watch</string>
+<string name="instructions_3">1 · Click on the button: \"Install on watch\".</string>
+<string name="instructions_4">2 · Check your watch. Google Play will be opened directly on the watch face page.</string>
+<string name="instructions_5">3 · On your watch, click on \"Install\".</string>
+<string name="instructions_6">* In case you are requested to purchase the watch face, try another method or try again in a few minutes!</string>
+<string name="instructions_7">* Ensure your watch is connected to your phone!</string>
+
+<string name="instructions_8">Method 2: Using a browser</string>
+<string name="instructions_9">1 · Click on the button: \"Open on browser\".</string>
+<string name="instructions_10">2 · Google Play will be opened in your default browser. Click on \"Install on more devices\".</string>
+<string name="instructions_11">3 · Select the desired device.</string>
+<string name="instructions_12">4 · Click on \"Install\".</string>
+<string name="instructions_13">* Ensure you are using the same Google Account you used to buy the watch face!</string>
+<string name="instructions_14">* Installation may take a couple of minutes before starting.</string>
+<string name="instructions_15">* In case you need to, click on the button below to copy the link.</string>
+
+<string name="instructions_16">Method 3: Directly on your phone</string>
+<string name="instructions_17">1 · Open the watch face page on your phone\'s Google Play.</string>
+<string name="instructions_18">2 · Click on the arrow next to the \"Install\" button.</string>
+<string name="instructions_19">3 · Select the desired device.</string>
+<string name="instructions_20">4 · Click on \"Install\".</string>
+<string name="instructions_21">* Sometimes the button \"Install\" is replaced by the button \"Retry\". You can use both in the same way.</string>
+<string name="instructions_22">* Ensure your watch is connected to your phone!</string>

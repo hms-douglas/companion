@@ -1,0 +1,6 @@
+    //Required to add the swipe down to refresh feature
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    //(Both) Required to communicate with the watch
+    implementation 'androidx.wear:wear-remote-interactions:1.0.0'
+    implementation 'com.google.android.gms:play-services-wearable:18.1.0'

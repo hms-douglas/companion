@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="install_on_watch">Instalar no relógio</string>
+    <string name="open_on_browser">Abrir no navegador</string>
+    <string name="open_on_store">Abrir na Google Play</string>
+    <string name="leave_a_review">Deixar uma avaliação</string>
+
+    <string name="copy_link">Copiar link</string>
+
+    <string name="watch_not_connected">Relógio não conectado!</string>
+
+    <string name="check_you_watch">Verifique seu</string>
+
+    <string name="toast_refreshing">Atualizando</string>
+    <string name="toast_error">Algo deu errado!</string>
+    <string name="toast_review_done">Obrigado!</string>
+    <string name="toast_copied">Copiado para a área de transferência!</string>
+
+    <string name="instructions_0">Guia de instalação</string>
+
+    <string name="instructions_1">Há três métodos para instalar o mostrador:</string>
+
+    <string name="instructions_2">Método 1: Diretamente no seu relógio</string>
+    <string name="instructions_3">1 · Clique no botão: \"Instalar no relógio\".</string>
+    <string name="instructions_4">2 · Verifique seu relógio. O Google Play será aberto diretamente na página do mostrador.</string>
+    <string name="instructions_5">3 · No seu relógio, clique em \"Instalar\".</string>
+    <string name="instructions_6">* Caso seja solicitado a compra tente outro método ou tente novamente em alguns minutos!</string>
+    <string name="instructions_7">* Certifique-se de que seu relógio esteja conectado ao seu telefone!</string>
+
+    <string name="instructions_8">Método 2: Usando um navegador</string>
+    <string name="instructions_9">1 · Clique no botão: \"Abrir no navegador\".</string>
+    <string name="instructions_10">2 · O Google Play será aberto no seu navegador padrão. Clique em \"Instalar em mais dispositivos\".</string>
+    <string name="instructions_11">3 · Selecione o dispositivo desejado.</string>
+    <string name="instructions_12">4 · Clique em \"Instalar\".</string>
+    <string name="instructions_13">* Certifique-se de estar utilizando a mesma Conta do Google usada para comprar o mostrador!</string>
+    <string name="instructions_14">* Pode demorar alguns minutos para iniciar a instalação.</string>
+    <string name="instructions_15">* Caso precise, clique no botão abaixo para copiar o link.</string>
+
+    <string name="instructions_16">Método 3: Diretamente no seu celular</string>
+    <string name="instructions_17">1 · Abra a página do mostrador no Google Play do seu celular.</string>
+    <string name="instructions_18">2 · Clique na seta, ao lado do botão \"Instalar\".</string>
+    <string name="instructions_19">3 · Selecione o dispositivo desejado.</string>
+    <string name="instructions_20">4 · Clique em \"Instalar\".</string>
+    <string name="instructions_21">* Às vezes, o botão “Instalar” é substituído pelo botão “Tentar novamente”. Ambos funcionam da mesma maneira.</string>
+    <string name="instructions_22">* Certifique-se de que seu relógio esteja conectado ao seu telefone!</string>
+</resources>
