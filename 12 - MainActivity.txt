@@ -604,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void nextScreenshot() {
         //Increments the index and checks if it is valid
-        if(++CUR_SCREENSHOT_INDEX == (SCREENSHOTS.length - 1)) {
+        if(++CUR_SCREENSHOT_INDEX >= SCREENSHOTS.length) {
             //If reaches the last of the screenshots, do:
 
             //Go back to the first
