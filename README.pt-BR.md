@@ -44,7 +44,6 @@ Como muitos designers de watch faces não sabem programar, eu decidi construir e
 ##
 ### Doações
 - Caso você queira me apoiar, você pode fazer uma doação utilizando o botão abaixo... Valeu! ❤️
-<br/>
 <a href="https://www.paypal.com/donate/?hosted_button_id=JABJ3AYXJRCQJ">
   <img src="readme_screenshots_ignore/paypal.png" width="160" height="50"/>
 </a>
