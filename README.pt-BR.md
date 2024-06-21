@@ -1,5 +1,5 @@
 # Aplicativo companheiro para watch faces ![Static Badge](https://img.shields.io/badge/versão-v1.0.0-green)
-Altere idioma do README: [![en](https://img.shields.io/badge/idioma-en-blue.svg)](https://github.com/hms-douglas/companion/blob/main/README.md)
+Altere o idioma do README: [![en](https://img.shields.io/badge/idioma-en-blue.svg)](https://github.com/hms-douglas/companion/blob/main/README.md)
 [![pt-br](https://img.shields.io/badge/idioma-pt--br-blue.svg)](https://github.com/hms-douglas/companion/blob/main/README.pt-BR.md)
 </br>
 </br>
