@@ -1,12 +1,12 @@
-# Aplicativo companheiro para watch faces
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/hms-douglas/companion/blob/main/README.md)
-[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/hms-douglas/companion/blob/main/README.pt-BR.md)
+# Aplicativo companheiro para watch faces ![Static Badge](https://img.shields.io/badge/versão-v1.0.0-green)
+Altere idioma do README: [![en](https://img.shields.io/badge/idioma-en-blue.svg)](https://github.com/hms-douglas/companion/blob/main/README.md)
+[![pt-br](https://img.shields.io/badge/idioma-pt--br-blue.svg)](https://github.com/hms-douglas/companion/blob/main/README.pt-BR.md)
 </br>
 </br>
 Como muitos designers de watch faces não sabem programar, eu decidi construir esse aplicativo para ajudá-los.
 </br>
 </br>
-<img src="readme_screenshots_ignore/0.png" width="100%"/>
+<img src="readme_screenshots_ignore/0-pt.png" width="100%"/>
 
 ##
 ### Recursos
@@ -25,7 +25,7 @@ Como muitos designers de watch faces não sabem programar, eu decidi construir e
 
 ##
 ### Instruções
-- Veja o vídeo abaixo (abrirá em uma nova janela) para instruções de como construir o app; como publicar (resumido); e de como reciclar o código. (Vídeo em inglês, com legenda!)
+- Veja o vídeo abaixo (abrirá em uma nova janela) para instruções de como construir o app; como publicar (resumido); e de como reciclar o código. (Vídeo em inglês, com legenda em português!)
 <a href="https://youtu.be/-kxKqALnqUA" target="_blank" rel="noreferrer">
   <img src="readme_screenshots_ignore/1.png" width="80%"/>
 </a>
@@ -36,3 +36,22 @@ Como muitos designers de watch faces não sabem programar, eu decidi construir e
 - Os icons são do <a href="https://fonts.google.com/" target="_blank" rel="noreferrer">Google Fonts</a>;
 - As imagens dos relógios são dos arquivos promocionais da samsung e do google;
 - A animação (dentro do app) é de "Freepik", disponível em <a href="https://www.flaticon.com/br/icone-animado-gratis/relogio-inteligente_15575632" target="_blank" rel="noreferrer">Flaticon</a> [Modified]. Eles pedem atribuição para utilizá-la! Como a que eu fiz aqui.
+
+##
+### Licença
+- Não há nenhuma licença especifica. Você pode utilizar o código/arquivos (os quer foram feitos por mim) como quiser, apenas certifique-se de ler os créditos acima!
+
+##
+### Doações
+- Caso você queira me apoiar, você pode fazer uma doação utilizando o botão abaixo... Valeu! ❤️
+<br/>
+<a href="https://www.paypal.com/donate/?hosted_button_id=JABJ3AYXJRCQJ">
+  <img src="readme_screenshots_ignore/paypal.png" width="160" height="50"/>
+</a>
+
+##
+### Log
+<b>v1.0.0</b>
+<ul>
+  <li>Lançamento.</li>
+</ul>
