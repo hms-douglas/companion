@@ -1,6 +1,7 @@
-# Companion app for watch faces
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/hms-douglas/companion)
-[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/hms-douglas/companion/blob/main/README.pt-BR.md)
+# Companion app for watch faces ![Static Badge](https://img.shields.io/badge/version-v1.0.0-green)
+Change README language: 
+[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/hms-douglas/companion)
+[![pt-br](https://img.shields.io/badge/lang-pt--br-blue.svg)](https://github.com/hms-douglas/companion/blob/main/README.pt-BR.md)
 </br>
 </br>
 As many of the watch face designers don't know how to code, I decided to build a companion app guide to help them.
@@ -36,3 +37,22 @@ As many of the watch face designers don't know how to code, I decided to build a
 - Icons are from <a href="https://fonts.google.com/" target="_blank" rel="noreferrer">Google Fonts</a>;
 - Watch images are from google and samsung promotional files;
 - Watch animation (inside the app) is from "Freepik" available at <a href="https://www.flaticon.com/br/icone-animado-gratis/relogio-inteligente_15575632" target="_blank" rel="noreferrer">Flaticon</a> [Modified]. They request attribution to use it! (Like the one I made here)
+
+##
+### License
+- No specific license. You can use this code/files (the ones made by me) as you want, just make sure to read the credits section!
+
+##
+### Donations
+- If you would like to support me, you can make a donation clicking on the button bellow... Thank you! ❤️
+<br/>
+<a href="https://www.paypal.com/donate/?hosted_button_id=JABJ3AYXJRCQJ">
+  <img src="readme_screenshots_ignore/paypal.png" width="160" height="50"/>
+</a>
+
+##
+### Log
+<b>v1.0.0</b>
+<ul>
+  <li>Release.</li>
+</ul>
