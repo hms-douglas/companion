@@ -45,7 +45,6 @@ As many of the watch face designers don't know how to code, I decided to build a
 ##
 ### Donations
 - If you would like to support me, you can make a donation clicking on the button bellow... Thank you! ❤️
-<br/>
 <a href="https://www.paypal.com/donate/?hosted_button_id=JABJ3AYXJRCQJ">
   <img src="readme_screenshots_ignore/paypal.png" width="160" height="50"/>
 </a>
