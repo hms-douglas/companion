@@ -6,7 +6,7 @@
 As many of the watch face designers don't know how to code, I decided to build a companion app guide to help them.
 </br>
 </br>
-<img src="readme_screenshots_ignore/0.png"/>
+<img src="readme_screenshots_ignore/0.png" width="100%"/>
 
 ##
 ### Features
@@ -27,7 +27,7 @@ As many of the watch face designers don't know how to code, I decided to build a
 ### Instructions
 - Check the video bellow (will open on a new window) for guidance on how to build the watch face companion app; how to publish (short guide); and how to recycle the code.
 <a href="https://youtu.be/-kxKqALnqUA" target="_blank" rel="noreferrer">
-  <img src="readme_screenshots_ignore/1.png"  height="500"/>
+  <img src="readme_screenshots_ignore/1.png" width="80%"/>
 </a>
 
 ##
