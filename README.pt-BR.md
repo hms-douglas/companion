@@ -43,10 +43,13 @@ Como muitos designers de watch faces não sabem programar, eu decidi construir e
 
 ##
 ### Doações
-- Caso você queira me apoiar, você pode fazer uma doação utilizando o botão abaixo... Valeu! ❤️
-<a href="https://www.paypal.com/donate/?hosted_button_id=JABJ3AYXJRCQJ">
-  <img src="readme_screenshots_ignore/paypal.png" width="160" height="50"/>
-</a>
+- Caso você queira me apoiar, você pode fazer uma doação no paypal clicando <a href="https://www.paypal.com/donate/?hosted_button_id=JABJ3AYXJRCQJ">aqui</a>. Ou você pode usar uma das opções abaixo... Valeu! ❤️
+</br>
+
+ Moeda | Endereço
+----|----|
+Bitcoin | 3NkK4LMwMhKefe2phqf7Vrp1uQynu1Gs6x
+Ethereum | 0xfea5dd21ebf73c5b4a2445c7713f6b5316dfac4d
 
 ##
 ### Log
